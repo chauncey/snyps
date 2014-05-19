@@ -3,6 +3,7 @@
 from os import environ
 import psycopg2
 import psycopg2.extras
+import pyscopg2.extensions
 import urlparse
 from collections import namedtuple
 
@@ -10,6 +11,9 @@ try:
     from collections import OrderedDict
 except ImportError:
     from ordereddict import OrderedDict
+
+psycopg2.extensions.register_type(psycopg2.extension.UNICODE)
+psycopg2.extensions.register_type(psycopg2.extension.UNICODEARRAY)
 
 
 def get_groups():
