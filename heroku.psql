@@ -1,0 +1,369 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: groups; Type: TABLE; Schema: public; Owner: chris; Tablespace: 
+--
+
+CREATE TABLE groups (
+    id integer NOT NULL,
+    name text
+);
+
+
+ALTER TABLE public.groups OWNER TO chris;
+
+--
+-- Name: snippets; Type: TABLE; Schema: public; Owner: chris; Tablespace: 
+--
+
+CREATE TABLE snippets (
+    id integer NOT NULL,
+    group_id integer,
+    title text,
+    description text
+);
+
+
+ALTER TABLE public.snippets OWNER TO chris;
+
+--
+-- Name: snips; Type: TABLE; Schema: public; Owner: chris; Tablespace: 
+--
+
+CREATE TABLE snips (
+    id integer NOT NULL,
+    snippet_id integer,
+    "position" integer,
+    type text,
+    content text
+);
+
+
+ALTER TABLE public.snips OWNER TO chris;
+
+--
+-- Data for Name: groups; Type: TABLE DATA; Schema: public; Owner: chris
+--
+
+COPY groups (id, name) FROM stdin;
+1	Python
+2	Sqlite 3
+3	CLI
+4	AIX
+5	Git
+6	Linux
+7	Vim
+8	EIC
+9	compiling
+11	YUI
+12	SVN
+14	Windows
+15	Misc
+17	Servers
+18	BBx
+19	Apache
+20	Titanium
+21	Debian
+22	Selenium
+25	Android
+\.
+
+
+--
+-- Data for Name: snippets; Type: TABLE DATA; Schema: public; Owner: chris
+--
+
+COPY snippets (id, group_id, title, description) FROM stdin;
+1	1	mkeyed	Description
+2	1	row factory	Description
+3	1	dotdict	Description
+4	2	create_from_file	Description
+5	3	svn log change	Description
+6	3	replace in all files	Description
+7	4	restore bff	Description
+8	1	alpha sort	Description
+10	3	poke all files	Description
+11	3	cron	Description
+12	4	Unform	Description
+13	5	upload-pack	Description
+14	3	fuse	Description
+15	3	screen	Description
+16	6	wkhtmltopdf	Description
+18	5	add remote	Description
+19	5	submodules	Description
+20	4	topas	Description
+22	3	diff	Description
+23	7	regexp	Description
+24	8	eLink IP	Description
+25	4	disk usage	Description
+27	9	vim 7.3 on AIX	Description
+28	9	Subversion on AIX	Description
+29	9	Python on AIX	Description
+30	9	Git on AIX	Description
+32	11	Logging	Description
+33	12	Relocate	Description
+34	12	Ubuntu-work	Description
+37	14	Update	Description
+38	15	VirtualBox	Description
+39	6	LinuxSetup	Description
+40	1	dupe.py	Description
+41	5	config	Description
+42	8	EndDebug	Description
+43	4	desc	Description
+44	6	Static IP	Description
+45	6	Startup	Description
+46	17	Slicehost	Description
+47	3	redirect	Description
+49	6	monit	Description
+50	6	cron	Description
+52	9	GCC environment	Description
+54	18	Debugging	Description
+55	19	List modules	Description
+56	15	Pidgin	Description
+57	12	Keywords	Description
+58	6	mount	Description
+59	20	Project	Description
+60	15	mongodb	Description
+61	18	cli	Description
+62	9	Apache on AIX	Description
+63	21	apt	Description
+64	19	New Snippet	Description
+65	6	cloning	Description
+66	1	docutils	Description
+67	21	dpkg	Description
+68	6	disk usage	Description
+70	8	ImageRight	Description
+71	5	log	Description
+72	19	dev area	Description
+73	22	Printing page source	Description
+74	1	Install - setup.py	Description
+75	25	Create emulator	Description
+76	3	OSX iso	Description
+78	11	Alert	Description
+79	6	Keyboard	Description
+80	14	Activation	Description
+81	9	tmux on AIX	Description
+82	1	email html	Description
+83	15	core dump	Description
+84	25	Install on device	Description
+85	25	Create project	Description
+86	1	tips	Description
+87	6	users	Description
+88	12	Change log	Description
+89	1	sphinx	Description
+90	3	terminfo	Description
+91	8	OpenFire	Description
+92	1	count	Description
+93	2	update_with_params	Description
+94	3	bigfiles	Description
+\.
+
+
+--
+-- Data for Name: snips; Type: TABLE DATA; Schema: public; Owner: chris
+--
+
+COPY snips (id, snippet_id, "position", type, content) FROM stdin;
+1	1	0	Python	from bbpy.files import mkeyed\nm = mkeyed.MKEYEDReader(CD+"file")\nm.read()
+2	1	1	Note	mkeyed read
+4	2	0	Python	class RowFactory(sqlite3.Row):\n    """Row factory for getting dot notation for dict access"""\n    def __getattr__(self, attr):\n        """The good stuff where we make the dot notation work"""\n        return self.__getitem__(attr)\n
+5	3	0	Python	class dotdict(dict):\n    def __getattr__(self, attr):\n        return self.get(attr, None)\n    __setattr__= dict.__setitem__\n    __delattr__= dict.__delitem__
+6	4	0	Shell	cat endapply.sql | sqlite3 endapply.db
+7	5	0	Shell	# REPOS_PATH is the local filesystem path\n# MSGFILE is a file containing the new log message\nsvnadmin setlog REPOS_PATH -r 6829 MSGFILE
+12	6	0	Shell	# Mark all files executable afteward!!!!!!!!!!!!\nfor y in `ls *.py`;\ndo sed 's/ABCD/DCBA/g' $y > temp; mv temp $y;\ndone
+14	7	0	Shell	# Displays contents\nrestore  -qTvf  /pware/pware53.python.2.6.1.0.bff   |  grep readline
+16	7	1	Shell	# Restore:\n# cd to some-nonproduction-directory  (IMPORTANT !!!!!  I know you know this, it’s just CYA)\nrestore  -qxvdf  /pware/pware53.python.2.6.1.0.bff   ./opt/pware/lib/python2.6/lib-dynload/readline.so
+18	8	0	Python	import re \n\ndef sort_nicely( l ): \n  """ Sort the given list in the way that humans expect. \n  """ \n  convert = lambda text: int(text) if text.isdigit() else text \n  alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ] \n  l.sort( key=alphanum_key )
+19	8	1	Python	def alphanum_key(s):\n   return [int(c) if c.isdigit() else c for c in re.split('([0-9]+)', s)] 
+21	10	0	Shell	ls cgi-bin/pgms/ | grep -v '.lst' | xargs -i{} poke.py cp -l cgi-bin/pgms/{} .
+22	11	0	Shell	# This uses the env EDITOR and  automagically recycles the cron job.\ncrontab -e
+24	12	0	Shell	# Take generated string, send to Unform, use rulesfile, pdf format, output to file test.pdf\ncat /usr/chris/uftest.sr22 | uf60c -f /test/rules/sr22.rul -p pdf -o /tmp/test.pdf
+26	12	1	Shell	# Specifiy another server option\nuf60c -p pdf -f sr22.rul -i /test/chris/uftest.quote -server tulsap522
+28	12	2	Shell	# Send to file on CLIENT side\ncat uftest.sr22 | uf60c -f /test/rules/sr22.rul -p pdf -o client:/tmp/chris/test.pdf -server tulsap522
+30	13	0	Shell	# Initial clone\ngit clone -u /usr/chris/bin/git-upload-pack  chris@tulsap522:/cc/projects/printall
+32	13	1	Shell	# Permanently add path for pull and push\ngit config remote.origin.uploadpack /usr/chris/bin/git-upload-pack\ngit config remote.origin.receivepack /usr/chris/bin/git-receive-pack
+34	14	0	Shell	# make dir\nsudo mkdir /media/sharename\n\n# change owner\nsudo chown cc /media/sharename\n\n# mount the remote via ssh\nsshfs cc@SERVER:/home/cc /media/sharename
+35	15	0	Plain Text	C-a c\t\tMake a new screen\nC-a n\t\tNext screen down the line\nC-a p\t\tPrevious screen down the line\nC-a k\t\tKills current screen until last one then screen exits\nC-a d\t\tDetach sessopm but leave running and re-attachable\nC-a "\t\tPresent a list of all windows for selection\nC-a ?\t\tHelp\nC-a H           Begins/ends logging of the current window to the file screenlog.n\nC-a [\nC-a Esc         Put into copy mode\nC-a Esc (jk)    Scroll\nscreen -DDR     Reattach any (the first) detached session or create a new one\nscreen -ls\tList all screen sessions
+36	16	0	Shell	# Starts an Xfvb sessionfor wkthmltopdf in a server environment.\n# NOTE: This is not needed with the current static library.\nxvfb-run -a -s '-screen 0 640x480x16' wkhtmltopdf [url] [pdf]
+41	15	1	Plain Text	# .screenrc - GNU Screen config file\n#\n# Randy Morris (rson451@gmail.com)\n#\n# CREATED:  a long time ago\n# MODIFIED: 2010-04-14 09:22\n#\n# Note: This file closly ties in with my zshrc for the screen title stuff.\n#       See http://rsontech.net/dotfiles/zshrc\n#\n\n# Basic Settings {{{\n\ndeflogin on                        # All screens are considered logins\nautodetach on                      # Detach on HUP instead of kill\nstartup_message off                # Don't be annoying\nvbell off                          # Don't be annoying\ndefshell -$SHELL                   # The dash makes it a login shell\ndefscrollback 10000                # Remember a lot\nnonblock on                        # Block input from hung applications\ndefutf8 on                         # Always use utf8\ndefflow off                        # Turn off flow-control\nmsgwait 3                          # Display msgs for N seconds\naltscreen on                       # Enable alternate screen support\nattrcolor b ".I"                   # Allow bold colors\ndefbce on                          # Erase background with current background color\nbell_msg ""                      # For urgency hints\nterm screen-256color-bce           # Set $TERM\n\n# }}}\n\n\n# Define terminal capibilities {{{\n\nterminfo rxvt-unicode 'Co#256:AB=\\E[48;5;%dm:AF=\\E[38;5;%dm'\ntermcapinfo xterm 'Co#256:AB=\\E[48;5;%dm:AF=\\E[38;5;%dm'\n\n# }}}\n\n\n# Hardstatus {{{\n\nbacktick 10 1 300 "check_updates.sh" # List number of available updates\nbacktick 20 1 100 "check_mail.sh"  # List number of new emails\n\n# 1 $irssi  _2_$zsh_  3 #vim  4 $mutt             --INSERT--  1 mail  6 updates\nhardstatus alwayslastline "%{= dd}%-w%{+b}%n %t%{-}%+w %=%{= dW}%h%{-}%20`%10`"\n\n# }}}\n\n\n# Banish screen 0, it sucks {{{\nbind c screen 1\nbind ^c screen 1\nbind 0 select 10\nscreen -t zsh 1\n# }}}\n\n\n# Keybinds {{{\n\n# Banish stupid s default behavior, make it more useful\nbind s split -v\n\n# Be lazy and use Fx keys for screen switching\nbindkey -k k1 select 1\nbindkey -k k2 select 2\nbindkey -k k3 select 3\nbindkey -k k4 select 4\nbindkey -k k5 select 5\nbindkey -k k6 select 6\nbindkey -k k7 select 7\nbindkey -k k8 select 8\n\n# Use F13 as escape (for caps-lock mapped to F13)\nbindkey -k F3 command\n\nbind j focus down\nbind k focus up\nbind h focus left\nbind l focus right\n\nbind J resize +5\nbind K resize -5\n\nbind ^A focus\n\n# }}}\n\n\n# vim:fol
+42	18	0	Shell	git remote add p522 chris@tulsap522:/cc/projects/printall
+43	18	1	Shell	# Add remote location named p522\n# So then this works:\ngit push p522
+44	19	0	Shell	# For initial setup, this adds a submodule to the current checkout \ngit submodule add https://github.com/scrooloose/nerdtree.git ~/dotfiles/.vim/bundle/nerdtree\n\n# When checking out a repo with submodules, you have to init the submodules and update to pull content\ngit submodule init\ngit submodule update
+45	20	0	Shell	topas -P \n# then tab for columns
+47	22	0	Shell	dfu -x '*.log' cgi-bin/ /usr/HTTPstage/cgi-bin/| vi -
+48	23	0	Shell	" replace windows line endings ^M with nothing\n:%s/\\r//g
+49	24	0	Plain Text	69.151.18.36
+50	25	0	Shell	du -ak /usr/chris/ | sort -n
+51	25	1	Shell	# Disk usage in megabytes sorted with largest at bottom\ndu -m /usr/chris| sort -n
+55	25	2	Shell	# Summary of the directory\ndu -sm /usr/chris
+116	2	1	Python	 def namedtuple_factory(cursor, row):                                                                                            \n     '''                                                                                                                         \n     Usage:                                                                                                                      \n     con.row_factory = namedtuple_factory                                                                                        \n     '''                                                                                                                         \n     fields = [col[0] for col in cursor.description]                                                                             \n     Row = namedtuple("Row", fields)                                                                                             \n     return Row(*row) 
+57	27	1	Shell	#!/usr/bin/zsh                                                                                                    \n                                                                                                                 \nexport CONF_OPT_PYTHON='--enable-pythoninterp'                                                                    \nexport CONF_OPT_GUI='--disable-gui'                                                                               \nexport CONF_OPT_NETBEANS='--disable-netbeans'                                                                     \nexport CONF_ARGS='--prefix=/usr/local'                                                                            \n                                                                                                                   \n                                                                        \n                                                                                                                  \nmake distclean                                                                                                    \n                                                                                                                  \n./configure $CONF_OPT_PYTHON $CONF_OPT_GUI $CONF_OPT_NETBEANS $CONF_ARGS 
+58	27	2	Shell	# If there is a message about Modules/python.exp not accessible\n$ mkdir src/Modules \n$ cd src/Modules\n$ ln -s /usr/local/lib/python2.6/config/python.exp\n$ ln -s /usr/local/lib/python2.6/config/makexp_aix
+60	28	0	Shell	# Subversion 1.6.9\n./configure --prefix=/usr/local --disable-nls --with-apr=/usr/HTTPServer/bin \\\n    --with-apr-util=/usr/HTTPServer/bin --without-berkeley-db --without-gnome-keyring --without-ssl --without-swig \\\n    --with-sqlite=/usr/chris/src/subversion-1.6.9/sqlite-amalgamation/ --without-neon
+61	29	0	Shell	# Python 2.6\n./configure --prefix=/usr/local --disable-ipv6
+62	27	0	Note	This is compiled with Python but no gui. I had to manually run export the EXTRA_LIBS in the shell before running the script that last time.\n\n# gcc 4.2.0 (p522)\n# Run this in the shell before configure\n$ export EXTRA_LIBS=/usr/lib/libpthreads.a\n\n# gcc 3.3.2 (p521)\n$ export EXTRA_LIBS=/usr/lib/libpthreads.a\n$ export LDFLAGS=-L/opt/freeware/lib/gcc-lib/powerpc-ibm-aix5.3.0.0/3.3.2
+64	30	0	Shell	# p521\nvi Makefile\n# Take out OPENSSL chunks\n# Add local to PYTHON_PATH\n# save\n\n./configure --with-curl=/usr/bin/curl
+65	27	3	Shell	# p521\n./configure --disable-gui --enable-pythoninterp --disable-netbeans --disable-nls
+66	23	1	Shell	" replace all \\n characters\n:%s/\\\\n//g
+67	23	2	Shell	" put line feed after all >\n:%s/>/>\\r/g
+68	32	1	JavaScript	<!--CSS file (default YUI Sam Skin) -->\n<link type="text/css" rel="stylesheet" href="http://yui.yahooapis.com/2.8.2r1/build/logger/assets/skins/sam/logger.css">\n\n<!-- Dependencies -->\n<script src="http://yui.yahooapis.com/2.8.2r1/build/yahoo-dom-event/yahoo-dom-event.js"></script>\n\n<!-- Source file -->\n<script src="http://yui.yahooapis.com/2.8.2r1/build/logger/logger-min.js"></script>
+69	32	0	JavaScript	YAHOO.util.Event.onDOMReady( function () {                                                                                                                      \n     var myLogReader = new YAHOO.widget.LogReader(document);                                                                                              \n   }                                                                                                                                                             \n);   
+70	33	0	Shell	# Associate checkout with another server FROM and TO\n$ svn switch --relocate svn://tulsadc04.equityins.net svn://10.57.31.9
+71	34	0	Shell	# restarting the svnserve script\n$ sudo /etc/init.d/svnserve restart
+73	37	0	Shell	# Group policy update\n$ gpupdate 
+74	32	2	JavaScript	YAHOO.log("Message");\nYAHOO.log(evt);
+75	38	0	Shell	# VirtualBox change UUID\n$ VBoxManage.exe internalcommands sethduuid 'CopiedDisk.vdi'
+76	38	1	Plain Text	# Setting up MS VirtualPC images\n\nUse VirtualPC for these steps\n1. Add password to IE User\n2. Download pcntpci5.sys \n\nVirtualBox\n1. Install network\n2. Activate windows\n3. Use sysfiles-download.com to download sys files
+77	39	0	Shell	## This assumes that you have these packages installed already - git, zsh, gvim, exuberant ctags ##\n\n# Create a ssh key\n$ ssh-keygen\n\n# Add public key to github\n\n# Checkout dotfiles\n$ git clone git@github.com:chauncey/dotfiles.git dotfiles/\n$ cd dotfiles\n$ git submodule init\n$ git submodule update\n\n# Symlink\n$ cd ~\n$ ln -s /home/chris/dotfiles/.zshrc\n$ ln -s /home/chris/dotfiles/.bashrc\n$ ln -s /home/chris/dotfiles/.vimrc\n$ ln -s /home/chris/dotfiles/.vim
+78	1	2	Python	# mkeyed readGenerator\nfrom bbpy.files import mkeyed\nm = mkeyed.MKEYEDReader(FILE)\nfor each in m.readGenerator():\n    if 'EPAY' in each:\n        print each
+79	40	0	Python	#!/usr/bin/env python2.6#!/usr/bin/env python2.6#!/usr/bin/env python2.6#!/usr/bin/env python2.6#!/usr/bin/env python2.6#!/usr/bin/env python2.6#!/usr/bin/env python2.6#!/usr/bin/env python2.6\n"Searches for KEY in GET request - combined Apache format (I think)"""\n\nKEY = "GET /cgi-bin/bbw.sh?pgm=PAYMENT.RECEIPT"\nLOG = "/tmp/chris/pay.log"\n\n\ndef findDupes(log):\n    dupes = []\n    for l in log:\n        get = l.split('"', 1)[1]\n        match = 0\n        for m in log:\n            if get in m:\n                match += 1\n                if match > 1 and l not in dupes:\n                    dupes.append(l)\n    return dupes\n\ndef findKey(log):\n    recs = []\n    for line in log:\n        if KEY in line:\n            recs.append(line)\n    return recs\n\ndef getLogContents():\n    f = open(LOG, "r")\n    all = f.readlines()\n    f.close()\n    return all\n\ndef writeLog(lines, log="alog"):\n    f = open(log, "w")\n    for line in lines:\n        polno = line.split("PolicyNo=", 1)[1][:9]\n        f.write(polno + "\\n")\n        f.write(line)\n    f.close()\n\ndef main():\n    log = getLogContents()\n    recs = findKey(log)\n    dupes = findDupes(recs)\n    writeLog(dupes)\n\n\n\nif __name__ == "__main__":\n    main()
+80	32	3	Shell	# Include in page\n'/yui/logger/assets/skins/sam/logger.css'\n'/yui/logger/logger-min.js'
+81	41	0	Plain Text	[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = true\n[color]\n\tbranch = auto\n\tdiff = auto\n\tinteractive = auto\n\tstatus = auto\n\tui = true\n[remote "ubdesktop"]\n\turl = cc@10.57.31.155:/home/cc/Dropbox/Work/Projects/Printall/site-packages\n\tfetch = +refs/heads/*:refs/remotes/ubdesktop/*\n[remote "p522"]\n\turl = chris@tulsap522:/cc/projects/printall\n\tfetch = +refs/heads/*:refs/remotes/p522/*\n\tuploadpack = /usr/chris/bin/git-upload-pack\n\treceivepack = /usr/chris/bin/git-upload-pack
+117	61	0	Shell	/usr/local/basis/pro5/pro5 -tIO -c'/usr/HTTPServer/cgi-bin/bbw.config' -m1024 REMPAY
+118	62	0	Shell	$ ./configure --with-mpm=worker --enable-so --enable-layout=Apache --enable-mods-shared=most --enable-maintainer-mode --enable-static-support --prefix=/usr/HTTPServer   
+119	63	0	Shell	# check version policy\nsudo apt-cache policy <package>\n\n# install from testing repository\nsudo apt-get  -t testing install <package>
+82	38	2	Plain Text	Once you’ve downloaded, the first step is to update the UUID for the VHD image(s), this is very important.\n\nC:\\Program Files\\Oracle\\VirtualBox>VBoxManage internalcommands sethduuid c:\\vm\\IE7Compat.vhd\nUUID changed to: a18e7fcc-b1fb-40c0-a46a-45017f20294a\n\nSo you load up the VHD into a new VirtualBox machine, and if you reboot before installing drivers, you get all sorts of weird errors because of missing drivers for the new hardware that is VirtualBox oriented (as opposed to VirtualPC).\n\nIf you reboot, you get stuck in an activation loop, because there’s no network to activate over the internet.\n\nYou  can get around this.\n\nYou’ll need MagicISO Maker or some sort of ISO / DMG creating utility.\n\nDownload the Intel network drivers here.\n\nExtract the Intel executable (using 7zip or WinRAR) into a folder, copy said extracted folder into a new ISO image.\n\nExtracting the Intel executable is an important part of the process as the VHD images are setup to not allow installations, so you need the driver files in their raw form. You may want to take a moment and include any other files you might want in this image, it’s just easier to do it this way and have the image for all of the virtual machine installations.\n\nSave the ISO to a safe and memorable place, like your VHD folder.\n\nWith your machine in the off state, change the network adapter to the Intel adapter:\n\nRight click on the machine, select Settings\nClick on Network on the left\nClick the advanced link label\nChange adapter type to Intel PRO/1000 MT (82540EM)\nClick OK.=\nSafe mode command prompt works when the activation loop is keeping you from logging in.\n\nYou can launch into that via tapping F8 before the Windows startup screen and selecting Safe Mode w/ Command Prompt.\n\nMake sure to click into the machine as soon as you turn into on and get the keyboard focus into the machine, I immediately start hitting F8.\n\nOnce into command prompt, cancel out any driver dialogs and type :\n\nexplorer<enter>\n\n\nHit Yes to the dialog about continuing in Safe Mode.\n\nGo back to the host machine in the window for the running  VirtualBox, goto the Devices > CD/DVD device menu > More CD/DVD Images…\n\nClick Add… and find the ISO you created earlier.\n\nDepending on your VirtualBox version there may be more steps to mount the drive, but ultimately it will be mounted in the Guest OS as a virtual CD drive.\n\nNow you have your network drivers available to the Guest OS!\n\nUse device manager to find the non-working network adapter, and reinstall / update driver using the drivers in the extracted Intel folder.\n\nOnce this is done, restart the Guest machine and boot normally, when it asks to activate, go for it, and activate over the internet.\n\nYou should have network activity and after some prompting about registration and a few clicks, you should be in a fully activated test environment.\n\nYou may want to install the Guest OS additions at this point =)\n\n
+83	42	0	Plain Text	# In order to actually debug in dev\n1. Copy over endorsement folder to cgi-bin\n2. Change imports in end_apply.py and end_request.py\n3. Copy over QQ.END.RATE to dev/cgi-bin/pgms/  (???)\n4. Copy over ENDORSE.SUBMIT
+85	44	0	Shell	# Static IP\n$ sudo vi /etc/network/interfaces\n\n# The primary network interface\nauto eth0\niface eth0 inet static\naddress 10.57.31.9\nnetmask 255.255.255.0\nnetwork 10.57.31.0\nbroadcast 10.57.31.255\ngateway 10.57.31.1\n\n    
+86	45	0	Shell	# Managing services\nupdate-rc.d svnserver defaults
+87	46	0	Plain Text	# Name\n$ server1.goofuswoofus.com\n\n
+88	46	1	Note	srcpad.com/yd\nyd:test
+89	47	0	Shell	# Redirect stdout and stderr to dev null\n$ ./example.pl > /dev/null 2>&1\n\n# 2>&1 - ensures that you send the standard error (file descriptor 2)\n# to wherever standard output (file descriptor 1) is going\n# More info - http://cfajohnson.com/shell/tuesday-tips/
+90	23	3	Shell	' first "cmap w!! %!sudo tee > /dev/null %' in vimrc\n:w!!
+98	49	0	Shell	# test config file\nsudo monit -t   
+99	50	0	Shell	# cron.daily, cron.weekly, etc\n# Ubuntu\n/etc/cron.daily/*\n\n# crontab for these\n/etc/crontab
+104	52	0	Plain Text	From - http://www.perzl.org/aix/index.php?n=Main.Instructions#environment_gcc\n\nEnvironment settings GCC\n\nI always use the BASH shell (from this web site).\nFor the different AIX versions I use exactly the environment settings listed below, i.e., you need to put those statements in you .bashrc so that they are activated.\nIf any different settings are required they are explicitely specified in the SPEC file contained in the Source RPM (SRPM) file.\nAIX5L v5.1:\n\n export CONFIG_SHELL=/opt/freeware/bin/bash\n export CONFIG_ENV_ARGS=/opt/freeware/bin/bash\n\n export CC=gcc\n export CFLAGS="-DSYSV -D_AIX -D_AIX32 -D_AIX41 -D_AIX43 -D_AIX51 \\\n        -D_ALL_SOURCE -DFUNCPROTO=15 -O -I/opt/freeware/include"\n\n export CXX=g++\n export CXXFLAGS=$CFLAGS\n\n export F77=xlf\n export FFLAGS="-O -I/opt/freeware/include"\n\n export LD=ld\n export LDFLAGS="-L/opt/freeware/lib -Wl,-blibpath:/opt/freeware/lib:/usr/lib:/lib -Wl,-bmaxdata:0x80000000"\n\n export PATH=/usr/bin:/bin:/etc:/usr/sbin:/usr/ucb:/usr/bin/X11:/sbin:/usr/vac/bin: \\\n        /usr/vacpp/bin:/usr/ccs/bin:/usr/dt/bin:/usr/opt/perl5/bin:/opt/freeware/bin: \\ \n        /opt/freeware/sbin:/usr/local/bin:/usr/lib/instl\n\nAIX5L v5.2:\n\nSame as for AIX5L v5.1 except the definition of $CFLAGS.\n export CFLAGS="-DSYSV -D_AIX -D_AIX32 -D_AIX41 -D_AIX43 -D_AIX51 -D_AIX52 \\\n        -D_ALL_SOURCE -DFUNCPROTO=15 -O -I/opt/freeware/include"\n\nAIX5L v5.3:\n\nSame as for AIX5L v5.1 except the definition of $CFLAGS.\n export CFLAGS="-DSYSV -D_AIX -D_AIX32 -D_AIX41 -D_AIX43 -D_AIX51 -D_AIX52 -D_AIX53 \\\n        -D_ALL_SOURCE -DFUNCPROTO=15 -O -I/opt/freeware/include"
+105	53	0	Plain Text	You might have occasion to need this:\n\nThe new local admin password for the Dell Optiplex 390s is being set up as:         \n\nEquity!\n\nI suppose it’s at least as secure as ‘nimda’.\n
+106	53	1	Plain Text	# Waco scheduler\nwacoirsch04 [WORKGROUP\\schedl4 - !rsupp0rt]  (Equity’s scheduler – handles NUPs, FUPs, CGTs and COLDs (pdfs))\ntulsawksir001 [EQUITYINS\\schedl3 - !rsupp0rt]  (Equity’s workflow server – handles process work flows and tasks)\nwacoirsch02 [WORKGROUP\\schedl2 - !rsupp0rt]  (IR fax & email sever)\n\n# wacoimg01\nwacoimg01 [WORKGROUP\\hsadmin] - Acc3ss1\n\n
+107	54	0	Plain Text	LET F9$=FID(AGPPI)                                                                                        |17043 LET INT_TIME$=SESS$(25,6)                                                                               \nLET ERRMSG$="f9: "+f9$(9) \n\n
+108	55	0	Shell	httpd -l
+109	56	0	Shell	# default theme\n/usr/share/pixmaps/pidgin/default
+111	57	0	Shell	svn propset svn:keywords 'Id' thisfile.py
+112	58	0	Shell	Samba mount\n\n# if notsamba and client\nsudo apt-get install smbfs smbclient\n\n# samba mount\nsudo mount -t cifs -o username=cchauncey //tulsadc03/TulsaIS /mnt/dc03\n\n# mount all in fstab, handy for after making additions\nsudo mount -a\n\n
+113	59	0	Plain Text	# working with code outside of the workspace for sharing across platforms\n1. Load whatever virtualenv I need.\n2. Create a new project using django-admin.py in my /home/django_projects folder \n   or import the project from svn.\n3. Import the project into Aptana.\n4. Right-click on the project and set it as a PyDev project.\n5. Right click on the project and edit the PythonPath property, \n   specifying my virtualenv's site-packages and my /home/django_projects folders as \n   external resources.
+114	60	0	Shell	mongod run --config /usr/local/Cellar/mongodb/2.0.1-x86_64/mongod.conf
+115	29	1	Shell	# Python 2.7\n./configure --prefix=/usr/local --disable-ipv6 --with-libs='-L/opt/freeware/lib'
+120	63	1	Shell	sudo apt-get build-dep  # build dependencies
+121	63	2	Shell	sudo apt-get update     # update repo list\nsudo apt-get upgrade    # upgrade packages
+122	63	3	Shell	\nsudo apt-get autoclean\n# will remove any packages \n# safe to remove and prompt you to do so\nsudo apt-get autoremove 
+123	63	4	Plain Text	# remove leftovers from uninstalled packages\nsudo aptitude purge `dpkg -l | grep "^rc" | tr -s ' ' | cut -d ' ' -f 2`
+124	62	1	Shell	$ ./configure --with-mpm=worker --enable-so --enable-layout=Apache --enable-mods-shared=most --enable-maintainer-mode --enable-static-support --prefix=/usr/local/apache2 --enable-ssl=shared --enable-proxy
+125	64	0	Shell	# Convert from p12 format to crt with OpenSSL\n/opt/freeware/bin/openssl pkcs12 -in /usr/HTTPServer/ssl/insureds.p12 -nocerts -out insureds.privatekey.key\n\n/opt/freeware/bin/openssl pkcs12 -in /usr/HTTPServer/ssl/insureds.p12 -clcerts -nokeys -out insureds.crt
+126	30	1	Shell	# p521\n./configure --prefix=/usr/chris/ --with-curl=/usr/bin/curl --without-tcltk --with-python=/usr/local/bin/python2.6\n
+127	65	0	Plain Text	# Clone the contents of one partition onto another\ndd if=/dev/sda1 of=/dev/sda2\n\n# Clone the contents of a whole hard drive onto another completely different drive\ndd if=/dev/sda of=/dev/sdb\n\n# Create an image of a hard drive for later use\ndd if=/dev/sda of=/mnt/hdd.img\n\n\n
+128	66	0	Shell	# For DR I made my-docutil.css based on Ian Bicking's voidspace.css\nrst2html.py --stylesheet=my-docutils.css setup_notes.txt setup_notes.html 
+129	25	3	Shell	Some Content
+130	67	0	Shell	# backup list\ndpkg --get-selections > installed.txt
+131	67	1	Shell	# install from list\ndpkg --set-selections < installed.txt
+132	68	0	Plain Text	du -sk * | sort -n | while read size fname; do for unit in k M G T P E Z Y; do if [ $size -lt 1024 ]; then echo -e "${size}${unit}\\t${fname}"; break; fi; size=$((size/1024)); done; done 
+133	19	1	Shell	# update all the submodules\ngit submodule foreach git pull origin master
+139	70	0	Plain Text	# Turn off transfers\nIRP.SUBR.TRANSFER - look for GOTO 6090 (currently line 505)\n\n# After turning back on transfers\nRUN”/test/util/FINDIRLOGS”\nChoose eic or beic\n"T" to transfer\n***Enter the specific date, since we may have older IR files in the directory.***\nbeic is the day before and eic is current date CCYYMMDD\n\n
+140	70	1	Shell	#!/bin/sh\n#rdesktop -u hsadmin -p Acc3ss1 -d WORKGROUP 172.16.1.8:3389\nrdesktop -u hsadmin -p Acc3ss1 -d WORKGROUP wacoimg01:3389
+141	70	2	Shell	#!/bin/sh\n#rdesktop -u schedl4 -p !rsupp0rt -d workgroup wacosch04:3389\nrdesktop -u schedl4 -p !rsupp0rt -d workgroup 172.16.1.244:3389\n
+142	70	3	Shell	#!/bin/sh\n#rdesktop -u schedl2 -p !rsupp0rt -d workgroup 172.16.1.244:3389\nrdesktop -u schedl2 -p !rsupp0rt -d workgroup wacoirsch02:3389
+143	70	4	Shell	#!/bin/sh\n#rdesktop -u schedl3 -p !rsupp0rt -d EQUITYINS 172.16.1.110:3389\nrdesktop -u schedl3 -p !rsupp0rt -d EQUITYINS tulsawksir001:3389
+144	71	0	Shell	# graph of log activity\n$ git log --pretty=oneline --graph | vi -
+145	72	0	Plain Text	Virtual hosts need to be in /etc/host on p522 (server)
+146	73	0	Plain Text	driver.page_source
+147	58	1	Shell	# /etc/fstab for automount ntfs drive\n/dev/sda5 /mnt/Data ntfs-3g defaults,user,locale=en_US.utf8 0 0
+148	53	2	Plain Text	p521 - root:58vette@p521\np522 - root:56tbird@p522
+149	74	0	Plain Text	python setup.py install --user --install-scripts=$HOME/bin
+150	1	3	Plain Text	Some Content
+151	75	0	Shell	# android command comes from the sdk in the tools directory\n\n# for the list of ids\n$ android list\n\n# create the emu\n$ android create avd -n <choose-a-name-here> -t <target-id-from-list>\n\n# open up the avd manager and add sd card, etc.\n$ android avd\n\n# run the emulator\n$ emulator -avd <name-you-chose>\n\n\n
+152	76	0	Plain Text	# Create a bootable iso from an image could also be a folder\n$ hdiutil makehybrid -iso -joliet -o [filename].iso [filename].cdr
+154	78	0	JavaScript	var yalert = function(body, header, footer) {\n  var header = (typeof header === "undefined") ? "Alert" : header;\n  var footer = (typeof header === "undefined") ? "" : footer;\n  if( !YV.alert ) {\n    YV.alert = new YAHOO.widget.SimpleDialog("yalert"\n            , { width:"320px"\n            , visible:false\n            , draggable:false\n            , close:false\n            , fixedcenter: true\n            , constraintoviewport: true\n            , buttons: [{ text: "Cancel Form"\n                        , handler: function(){ window.close();} }\n                     , {text: "Complete Form"\n                        , handler: function(){ this.hide();} }]\n            });\n    YV.alert.setHeader(header);\n    YV.alert.setBody(body);\n    YV.alert.setHeader(footer);\n    YV.alert.render("content");\n  } else {\n    YV.alert.setBody(body);\n  }\n  YV.alert.show();\n};
+155	79	0	Plain Text	# speedswapper script\n! Swap caps lock and escape\nremove Lock = Caps_Lock\nkeysym Escape = Caps_Lock\nkeysym Caps_Lock = Escape\nadd Lock = Caps_Lock\n\n# run in the cli\nxmodmap ~/.speedswapper
+157	38	3	Plain Text	Some Content
+158	80	0	Plain Text	# Error Code: 0x8007232B\n# Description: DNS Name does not exist\n# Run as cmd adminstrator (this is important!)\n\n$ slmgr.vbs -ipk [Your Windows 7 Product Key with the dashes]\n$ slmgr.vbs -ato\n
+159	81	0	Plain Text	# requires libevent installed (assuming ~/ prefix)\n# assuming installing in /usr/chris\n$ ./configure --prefix=/usr/chris CFLAGS="-I$HOME/include" LDFLAGS="-L$HOME/lib"
+160	82	0	Python	Some Content
+161	83	0	Plain Text	
+162	84	0	Shell	# if emulator is running\n\n$ adb install <path to bin>-debug.apk\n\n# if there is more than on emulator\n# specify the serial number which can be obtained with "adb devices"\n\n$ adb -s emulator-5554 install <path>.apk
+163	85	0	Shell	$ android create project --target <target-id> \n--name MyFirstApp \n--path <path-to-workspace>/MyFirstApp \n--activity MainActivity \n--package com.example.myfirstapp\n\n# Replace <target-id> with an id from the list of targets \n# (from the previous step) and \n# replace <path-to-workspace> with the location in \n# which you want to save your Android projects.
+164	85	1	Shell	$ /path/to/cordova-android/bin/create /path/to/my_new_cordova_project com.example.cordova_project_name CordovaProjectName
+165	64	1	Plain Text	# Create new key\nopenssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout mysitename.key -out mysitename.crt\n\n\n
+166	23	4	Plain Text	" Change file dir to current dir (cwd)\n:cd %:p:h\n\n" Change only the current window\n:lcd %:p:h\n\n
+167	86	0	Plain Text	# Exception\nexcept Exception as e:\n    e.args # has instance arguments
+169	87	0	Shell	# add existing user to existing group\n$ usermod -a -G group username\n\n# add group\n$ addgroup groupname
+171	57	1	Note	Some Content
+173	88	0	Shell	# From the subversion server (tulsamp9) where REV is revision number \n# and tmp is a file containing text for log entry\n$ sudo svnadmin setlog --bypass-hooks /home/svn/eic -r REV tmp
+174	53	5	Plain Text	Some Content
+175	89	0	Plain Text	/home/chris/documents/backups/sphinxapi\n
+176	90	0	Plain Text	
+177	91	0	Plain Text	
+178	92	0	Plain Text	Some Content
+179	93	0	Plain Text	conn = sqlite3.connect('test.db')\nc = conn.cursor()\nc.execute('update viol set vcode=? where viol="three"', ("woot",));\nconn.commit();\n
+180	71	1	Shell	# show log and last 2 diffs\n$ git log -p -2
+181	29	2	Plain Text	# Python 3.3 (ssl not working)\n./configure --prefix=/usr/local --disable-ipv6 --with-libs='-L/opt/freeware/lib'\n
+182	94	0	Plain Text	find / -type f -size +20000k -exec ls -lh {} \\; 2> /dev/null | awk '{ print $NF ": " $5 }' | sort -hrk 2,2
+183	62	2	Plain Text	# Apache 2.4\n#\n# Download apr and apr-util and put them in srclib/apr and srclib/apr-util\n$ ./configure --with-mpm=worker --enable-so --enable-layout=Apache --enable-mods-shared=most --enable-maintainer-mode --enable-static-support --prefix=/usr/local/apache2 --enable-ssl=shared --enable-proxy --with-included-apr
+\.
+
+
+--
+-- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: chris; Tablespace: 
+--
+
+ALTER TABLE ONLY groups
+    ADD CONSTRAINT groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: snippets_pkey; Type: CONSTRAINT; Schema: public; Owner: chris; Tablespace: 
+--
+
+ALTER TABLE ONLY snippets
+    ADD CONSTRAINT snippets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: snips_pkey; Type: CONSTRAINT; Schema: public; Owner: chris; Tablespace: 
+--
+
+ALTER TABLE ONLY snips
+    ADD CONSTRAINT snips_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

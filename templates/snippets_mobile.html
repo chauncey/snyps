@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Policy{% endblock %}
+{% block content %}
+        {% for each in pagevars.groups %}
+        <ul data-role="listview">
+          <li>
+            <h3>{{ each }}</h3>
+            <ul>
+              <div data-role="collapsible-set">
+              {% for item in pagevars.groups[each] if pagevars.groups[each][item] %}
+                <div data-role="collapsible">
+                  <h3>{{ item }}</h3>
+                  {% for contentitem in pagevars.groups[each][item] if contentitem.content %}</p>
+                  <pre class="prettyprint">{{ contentitem.content }}</pre>
+                  {% endfor %}
+                </div>
+              {% endfor %}
+              </div>
+            </ul>
+          </li>
+        </ul>
+        {% endfor %}
+{% endblock %}

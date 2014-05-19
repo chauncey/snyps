@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Snippets</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="stylesheet" media="screen" href="/static/superfish-vertical.css" />
+    <script type="text/javascript" src="/static/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/static/snippets.js"></script>
+    <script type="text/javascript" src="/static/superfish.js"></script>
+    <script> 
+        $(document).ready(function(){ 
+            $("ul.sf-menu").superfish({ 
+                animation: {height:'show'},   // slide-down effect without fade-in 
+                delay:     1200               // 1.2 second delay on mouseout 
+            }); 
+        }); 
+    </script>
+  </head>
+  <body>
+    <div id="hd">
+      <a href="/">&laquo; Home</a>
+    </div><!-- hd -->
+    <div style="text-align: center; margin-bottom: 6em;">
+      <h1>Snippets</h1>
+    </div>
+    <div id="utillist"
+         style="float: left; width: 200px; border: 2px solid;">
+      <div style="padding: 5px; background-color: #006; color: white;">
+        Snippets
+        <span style="padding-right: 5px">
+          (<a href="#" style="color: white;" onclick="showSearch(); return false;">search</a>)
+        </span>
+      </div>
+      <div style="padding: 5px; list-style-type:none;">
+        <ul id="sample-menu-3" class="sf-menu sf-vertical">
+          {% for each in pagevars.menu %}
+          <li class="current">{{ each }}
+            <ul>
+              {% for item in pagevars.menu[each] if item.title %}
+              <li>
+                <a href="#aa">{{ item.title }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+            {% endfor %}
+          </li>
+        </ul>
+      </div>
+      <div style="padding: 5px; background-color: #006; color: white;">
+        <a href="#" style="color: white;"
+           onclick="addUtil(); return false;">Add Snippet</a>
+      </div>
+    </div>
+    <div style="margin-left: 240px; width: 80%; background-color: #ffc;">
+    {% for s in pagevars.content if s.content %}
+      <pre style="display: none; padding: 15px; border: 2px solid;"
+           id="snp{{ s.snippet_id }}" name="utilinfo">{{ s.content }}</pre>
+         {% endfor %}
+    </div>
+    <div style="margin-left: 240px; width: 80%; background-color: #ffc;">
+      <form id="addform" style="display: none; border: 2px solid; padding: 15px;"
+            method="post" action="/snippetsapp.py">
+        <div>
+          <input type="hidden" id="submitting" value="submitting" />
+          <p>Keep in mind that this is a raw dump into the db. Don't break it or you'll have to fix it =)</p>
+          <label for="name">Name: <input type="text" name="name" id="name" /></label>
+          <label for="path">Path: <input type="text" name="path" id="path" /></label>
+        </div>
+        <div>
+          <label for="desc">Desc: (use html for linebreaks, etc.)<br />
+            <textarea rows="5" cols="60" name="desc" id="desc"></textarea>
+          </label>
+          <br />
+        </div>
+        <div style="text-align: center;">
+          <input type="submit" name="button" id="button" value="Submit Utility" />
+        </div>
+      </form><!-- addform -->
+      <div id="searchform" style="display: none; border: 2px solid; padding: 15px;">
+        <h4>Search</h4>
+        <input type="text" id="searchinp" name="searchinp" />
+        <button id="srch" name="srch" onclick="search(); return false;">Search</button>
+      </div>
+    </div>
+  </body>
+</html>

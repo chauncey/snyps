@@ -1,0 +1,27 @@
+<!doctype html>
+  <head>
+    {% block head %}
+    <title>Snippets</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
+    <script type="text/javascript" src="/static/prettify/prettify.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/prettify/sunburst.css" />
+    <script type="text/javascript">
+      $('div').live('pagecreate', function() {
+        prettyPrint()
+      });
+    </script>
+    {% endblock %}
+  </head>
+  <body>
+    <div data-role="page" id="page">
+      <div data-role="header">
+        <h1>Snippets</h1>
+        <a href="/create" data-icon="gear" class="ui-btn-right">Create</a> 
+      </div>
+      <div data-role="content" id="content">{% block content %}{% endblock %}</div>
+    </div><!-- page -->
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Policy{% endblock %}
+{% block content %}
+      <form action="/create" id="createsnip">
+        <label for="group">Group:</label>
+        <select name="group" id="group">
+          {% for each in pagevars.groups %}
+          <option value="{{ each }}">{{ each }}</option>
+          {% endfor %}
+        </select>
+        <label for="snipname">Snippet Name:</label>
+        <input type="text" id="snipname" name="snipname" />
+        <label for="snippet">Snippet:</label>
+        <textarea id="snippet" name="snippet"></textarea>
+        <input type="submit" value="Create Snippet" />
+      </form>
+{% endblock %}
