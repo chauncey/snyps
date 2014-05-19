@@ -6,7 +6,7 @@ from flask import Flask, render_template
 import snippets
 
 app = Flask(__name__)
-#app.config['DEBUG'] = True
+app.config['DEBUG'] = True
 
 @app.route('/')
 def index():
@@ -22,7 +22,7 @@ def create():
 
 
 if "__main__" == __name__:
-    app.run(debug=True, host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=80)
     #app.run(debug=True, host='0.0.0.0', port=5001)
 
 
