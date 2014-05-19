@@ -31,7 +31,12 @@ def get_groups():
     return groups
     '''
     groups = OrderedDict()
-    conn = psycopg2.connect("dbname='snippets-heroku' user='chris' host='localhost'")
+
+    urlparse.uses_netloc.append('postgres')
+    url = urlparse.urlparse(environ['DATABASE_URL'])
+    conn = psycopg2.connect("dbname=%s user=%s password=%s host=%s " % (url.path[1:], url.username, url.password, url.hostname))
+    #conn = psycopg2.connect("dbname='snippets-heroku' user='chris' host='localhost'")
+
     db = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     db.execute("""select name, id from groups""")
     grps = db.fetchall()
@@ -58,11 +63,10 @@ def get_content():
     conn.close()
     return content
     '''
-    #conn = psycopg2.connect("dbname='snippets-heroku' user='chris' host='localhost'")
-
     urlparse.uses_netloc.append('postgres')
     url = urlparse.urlparse(environ['DATABASE_URL'])
     conn = psycopg2.connect("dbname=%s user=%s password=%s host=%s " % (url.path[1:], url.username, url.password, url.hostname))
+    #conn = psycopg2.connect("dbname='snippets-heroku' user='chris' host='localhost'")
 
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute("""select * from snips""")
