@@ -1,27 +1,15 @@
 """Snippets app based on Snippely Air app database"""
 
+from os import environ
 import psycopg2
 import psycopg2.extras
+import urlparse
 from collections import namedtuple
 
 try:
     from collections import OrderedDict
 except ImportError:
     from ordereddict import OrderedDict
-
-
-def get_python_groups():
-    groups = OrderedDict()
-    conn = sqlite3.connect('data/application.db')
-    conn.row_factory = row_factory
-    db = conn.cursor()
-    grps = db.execute('select name,id from groups').fetchall()
-    #grps.sort()
-    for grp in grps:
-        titles = db.execute('select id, title from snippets where group_id=?', (grp.id,)).fetchall()
-        groups.update({grp.name: titles})
-    conn.close()
-    return groups
 
 
 def get_groups():
@@ -70,10 +58,14 @@ def get_content():
     conn.close()
     return content
     '''
-    conn = psycopg2.connect("dbname='snippets-heroku' user='chris' host='localhost'")
+    #conn = psycopg2.connect("dbname='snippets-heroku' user='chris' host='localhost'")
+
+    urlparse.uses_netloc.append('postgres')
+    url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    conn = psycopg2.connect("dbname=%s user=%s password=%s host=%s " % (url.path[1:], url.username, url.password, url.hostname))
+
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute("""select * from snips""")
     rows = cur.fetchall()
     conn.close()
     return rows
-
