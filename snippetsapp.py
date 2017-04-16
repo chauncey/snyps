@@ -8,6 +8,7 @@ import snippets
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
+
 @app.route('/')
 def index():
     pagevars = {'content': snippets.get_content(),
@@ -23,6 +24,3 @@ def create():
 
 if "__main__" == __name__:
     app.run(host='0.0.0.0', port=80)
-    #app.run(debug=True, host='0.0.0.0', port=5001)
-
-
